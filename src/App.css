@@ -33,6 +33,48 @@
 .animation-stage { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; place-items: center; border-right: 1px solid rgba(148, 163, 184, 0.2); background: #0b1628; }
 .panel-label { justify-self: start; color: #94a3b8; font-size: 14px; font-weight: 700; }
 .exercise-svg { width: min(72vh, 82%); max-width: 560px; filter: drop-shadow(0 24px 60px rgba(77, 212, 172, 0.14)); }
+.dual-action-view {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(132px, 0.32fr);
+  gap: 14px;
+  align-items: end;
+  width: min(92%, 640px);
+}
+.front-view, .side-view {
+  position: relative;
+  min-width: 0;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.28);
+}
+.front-view {
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+}
+.side-view {
+  align-self: end;
+  min-height: 230px;
+  padding: 12px 8px 4px;
+  background: rgba(15, 23, 42, 0.78);
+}
+.side-view svg { width: 100%; height: auto; display: block; }
+.shoulder-front-svg {
+  width: min(100%, 440px);
+  max-width: none;
+}
+.view-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.68);
+  color: #dbeafe;
+  font-size: 12px;
+  font-weight: 800;
+}
 .animation-caption { width: 100%; padding: 14px; border-radius: 8px; background: rgba(15, 23, 42, 0.86); color: #f8fafc; text-align: center; font-size: 22px; font-weight: 800; }
 .camera-column { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 14px; background: #08111f; }
 .pose-panel { position: relative; overflow: hidden; min-height: 360px; border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 8px; background: #020617; }
@@ -116,6 +158,9 @@
   .hero-actions { align-items: stretch; }
   .header-actions { flex-direction: column; }
   .animation-stage { border-right: 0; border-bottom: 1px solid rgba(148, 163, 184, 0.2); }
+  .dual-action-view { grid-template-columns: minmax(0, 1fr); width: 100%; }
+  .front-view { min-height: 330px; }
+  .side-view { width: min(230px, 72%); justify-self: center; min-height: 0; }
   .train-topbar { grid-template-columns: 1fr; }
   .top-timer { justify-self: start; }
   .control-row, .result-grid { grid-template-columns: 1fr 1fr; }

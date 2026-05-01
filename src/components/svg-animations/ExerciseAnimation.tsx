@@ -1,10 +1,14 @@
 import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 import type { AnimationKey } from '../../types'
 
 interface ExerciseAnimationProps {
   type: AnimationKey
   title: string
 }
+
+const transition = { duration: 3, repeat: Infinity, ease: 'easeInOut' as const }
+const shoulderTransition = { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
 
 const motionFor = (type: AnimationKey) => {
   switch (type) {
@@ -31,78 +35,109 @@ const motionFor = (type: AnimationKey) => {
   }
 }
 
-const transition = { duration: 3, repeat: Infinity, ease: 'easeInOut' as const }
-const shoulderTransition = { duration: 2.2, repeat: Infinity, ease: 'easeInOut' as const }
-
-const ShoulderShrugCue = () => (
-  <>
-    <motion.g animate={{ y: [18, -18, 18] }} transition={shoulderTransition}>
-      <line x1="122" y1="172" x2="122" y2="130" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-      <path d="M108 140 L122 124 L136 140" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="238" y1="172" x2="238" y2="130" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-      <path d="M224 140 L238 124 L252 140" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-    </motion.g>
-    <text x="180" y="326" textAnchor="middle" fill="#fef3c7" fontSize="20" fontWeight="800">肩膀垂直上提，再放松落下</text>
-  </>
+const FrontBody = ({ children }: { children?: ReactNode }) => (
+  <svg viewBox="0 0 360 360" role="img" className="exercise-svg shoulder-front-svg">
+    <defs>
+      <linearGradient id="frontBodyLine" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stopColor="#4dd4ac" />
+        <stop offset="100%" stopColor="#6aa7ff" />
+      </linearGradient>
+    </defs>
+    <circle cx="180" cy="78" r="32" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="5" />
+    <line x1="180" y1="112" x2="180" y2="238" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
+    <line x1="180" y1="238" x2="134" y2="305" stroke="url(#frontBodyLine)" strokeWidth="10" strokeLinecap="round" />
+    <line x1="180" y1="238" x2="226" y2="305" stroke="url(#frontBodyLine)" strokeWidth="10" strokeLinecap="round" />
+    {children}
+  </svg>
 )
 
-const ShoulderRollCue = () => (
-  <>
-    <ellipse cx="122" cy="158" rx="34" ry="46" fill="none" stroke="#facc15" strokeDasharray="8 8" strokeWidth="5" />
-    <ellipse cx="238" cy="158" rx="34" ry="46" fill="none" stroke="#facc15" strokeDasharray="8 8" strokeWidth="5" />
-    <path d="M98 132 C118 102 152 118 146 152" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-    <path d="M146 152 L132 142 L150 134" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M262 132 C242 102 208 118 214 152" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-    <path d="M214 152 L228 142 L210 134" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-    <motion.circle cx="122" cy="112" r="8" fill="#fde68a" animate={{ cx: [122, 152, 122, 92, 122], cy: [112, 158, 204, 158, 112] }} transition={transition} />
-    <motion.circle cx="238" cy="112" r="8" fill="#fde68a" animate={{ cx: [238, 268, 238, 208, 238], cy: [112, 158, 204, 158, 112] }} transition={transition} />
-    <text x="180" y="326" textAnchor="middle" fill="#fef3c7" fontSize="20" fontWeight="800">肩头向上、向后、向下画圆</text>
-  </>
+const ShoulderShrugViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody>
+        <motion.g animate={{ y: [16, -22, 16] }} transition={shoulderTransition}>
+          <line x1="122" y1="158" x2="238" y2="158" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
+          <line x1="122" y1="158" x2="104" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
+          <line x1="238" y1="158" x2="256" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
+          <circle cx="122" cy="158" r="12" fill="#4dd4ac" />
+          <circle cx="238" cy="158" r="12" fill="#4dd4ac" />
+        </motion.g>
+        <motion.g animate={{ y: [12, -18, 12] }} transition={shoulderTransition}>
+          <line x1="98" y1="174" x2="98" y2="126" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+          <path d="M84 140 L98 124 L112 140" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+          <line x1="262" y1="174" x2="262" y2="126" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+          <path d="M248 140 L262 124 L276 140" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+        </motion.g>
+      </FrontBody>
+    </div>
+    <div className="side-view">
+      <span className="view-label">侧视图</span>
+      <svg viewBox="0 0 190 230" role="img" aria-label="耸肩侧视图">
+        <circle cx="82" cy="42" r="24" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
+        <line x1="82" y1="68" x2="82" y2="155" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
+        <motion.g animate={{ y: [12, -20, 12] }} transition={shoulderTransition}>
+          <circle cx="88" cy="88" r="13" fill="#facc15" />
+          <line x1="88" y1="88" x2="106" y2="165" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
+          <circle cx="106" cy="165" r="8" fill="#dffcf2" />
+        </motion.g>
+        <line x1="132" y1="124" x2="132" y2="72" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <path d="M120 84 L132 70 L144 84" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="95" y="212" textAnchor="middle" fill="#fef3c7" fontSize="14" fontWeight="800">肩头向上，不抬手</text>
+      </svg>
+    </div>
+  </div>
 )
 
-const Arms = ({ type, armY }: { type: AnimationKey; armY: number[] }) => {
-  if (type === 'shoulderShrug') {
-    return (
-      <motion.g animate={{ y: [14, -20, 14] }} transition={shoulderTransition}>
-        <line x1="124" y1="160" x2="236" y2="160" stroke="url(#bodyLine)" strokeWidth="11" strokeLinecap="round" />
-        <line x1="124" y1="160" x2="104" y2="238" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-        <line x1="236" y1="160" x2="256" y2="238" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-        <circle cx="124" cy="160" r="11" fill="#4dd4ac" />
-        <circle cx="236" cy="160" r="11" fill="#4dd4ac" />
-      </motion.g>
-    )
-  }
-
-  if (type === 'shoulderRoll') {
-    return (
-      <motion.g
-        animate={{ x: [0, 8, 0, -8, 0], y: [0, -14, -2, 12, 0] }}
-        transition={transition}
-      >
-        <line x1="124" y1="160" x2="236" y2="160" stroke="url(#bodyLine)" strokeWidth="11" strokeLinecap="round" />
-        <line x1="124" y1="160" x2="102" y2="238" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-        <line x1="236" y1="160" x2="258" y2="238" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-        <circle cx="124" cy="160" r="11" fill="#4dd4ac" />
-        <circle cx="236" cy="160" r="11" fill="#4dd4ac" />
-      </motion.g>
-    )
-  }
-
-  return (
-    <motion.g animate={{ y: armY }} transition={transition}>
-      <line x1="124" y1="154" x2="236" y2="154" stroke="url(#bodyLine)" strokeWidth="11" strokeLinecap="round" />
-      <line x1="124" y1="154" x2="92" y2="218" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-      <line x1="236" y1="154" x2="268" y2="218" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
-      <circle cx="124" cy="154" r="9" fill="#4dd4ac" />
-      <circle cx="236" cy="154" r="9" fill="#4dd4ac" />
-      <circle cx="92" cy="218" r="8" fill="#6aa7ff" />
-      <circle cx="268" cy="218" r="8" fill="#6aa7ff" />
-    </motion.g>
-  )
-}
+const ShoulderRollViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody>
+        <line x1="122" y1="158" x2="238" y2="158" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
+        <line x1="122" y1="158" x2="104" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
+        <line x1="238" y1="158" x2="256" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
+        <circle cx="122" cy="158" r="12" fill="#4dd4ac" />
+        <circle cx="238" cy="158" r="12" fill="#4dd4ac" />
+        <path d="M92 156 C98 112 146 110 152 156 C154 194 102 198 92 156" fill="none" stroke="#facc15" strokeDasharray="7 7" strokeWidth="5" />
+        <path d="M208 156 C214 112 262 110 268 156 C270 194 218 198 208 156" fill="none" stroke="#facc15" strokeDasharray="7 7" strokeWidth="5" />
+        <motion.circle cx="122" cy="116" r="9" fill="#facc15" animate={{ cx: [122, 152, 122, 92, 122], cy: [116, 156, 196, 156, 116] }} transition={transition} />
+        <motion.circle cx="238" cy="116" r="9" fill="#facc15" animate={{ cx: [238, 268, 238, 208, 238], cy: [116, 156, 196, 156, 116] }} transition={transition} />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="800">肩头画圆，手臂放松垂下</text>
+      </FrontBody>
+    </div>
+    <div className="side-view">
+      <span className="view-label">侧视图</span>
+      <svg viewBox="0 0 190 230" role="img" aria-label="肩部环绕侧视图">
+        <circle cx="78" cy="42" r="24" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
+        <line x1="78" y1="68" x2="78" y2="155" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
+        <ellipse cx="88" cy="94" rx="24" ry="34" fill="none" stroke="#facc15" strokeDasharray="6 6" strokeWidth="5" />
+        <motion.g animate={{ x: [0, 20, 0, -16, 0], y: [-22, 0, 26, 0, -22] }} transition={transition}>
+          <circle cx="88" cy="94" r="12" fill="#facc15" />
+          <line x1="88" y1="94" x2="108" y2="166" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
+          <circle cx="108" cy="166" r="8" fill="#dffcf2" />
+        </motion.g>
+        <path d="M118 68 C148 80 150 112 124 130" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <path d="M124 130 L124 112 L140 122" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="95" y="212" textAnchor="middle" fill="#fef3c7" fontSize="14" fontWeight="800">向上、向后、向下滚动</text>
+      </svg>
+    </div>
+  </div>
+)
 
 export const ExerciseAnimation = ({ type, title }: ExerciseAnimationProps) => {
   const movement = motionFor(type)
+
+  if (type === 'shoulderShrug' || type === 'shoulderRoll') {
+    return (
+      <div className="animation-stage">
+        <div className="panel-label">标准动作演示</div>
+        {type === 'shoulderShrug' ? <ShoulderShrugViews /> : <ShoulderRollViews />}
+        <div className="animation-caption">{title}</div>
+      </div>
+    )
+  }
+
   return (
     <div className="animation-stage">
       <div className="panel-label">标准动作演示</div>
@@ -118,13 +153,19 @@ export const ExerciseAnimation = ({ type, title }: ExerciseAnimationProps) => {
           <line x1="180" y1="115" x2="180" y2="145" stroke="url(#bodyLine)" strokeWidth="10" strokeLinecap="round" />
         </motion.g>
         <line x1="180" y1="145" x2="180" y2="235" stroke="url(#bodyLine)" strokeWidth="12" strokeLinecap="round" />
-        <Arms type={type} armY={movement.armY} />
+        <motion.g animate={{ y: movement.armY }} transition={transition}>
+          <line x1="124" y1="154" x2="236" y2="154" stroke="url(#bodyLine)" strokeWidth="11" strokeLinecap="round" />
+          <line x1="124" y1="154" x2="92" y2="218" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
+          <line x1="236" y1="154" x2="268" y2="218" stroke="url(#bodyLine)" strokeWidth="9" strokeLinecap="round" />
+          <circle cx="124" cy="154" r="9" fill="#4dd4ac" />
+          <circle cx="236" cy="154" r="9" fill="#4dd4ac" />
+          <circle cx="92" cy="218" r="8" fill="#6aa7ff" />
+          <circle cx="268" cy="218" r="8" fill="#6aa7ff" />
+        </motion.g>
         <line x1="180" y1="235" x2="132" y2="302" stroke="url(#bodyLine)" strokeWidth="10" strokeLinecap="round" />
         <line x1="180" y1="235" x2="228" y2="302" stroke="url(#bodyLine)" strokeWidth="10" strokeLinecap="round" />
         <circle cx="180" cy="145" r="10" fill="#dffcf2" />
         <circle cx="180" cy="235" r="10" fill="#dffcf2" />
-        {type === 'shoulderShrug' && <ShoulderShrugCue />}
-        {type === 'shoulderRoll' && <ShoulderRollCue />}
       </svg>
       <div className="animation-caption">{title}</div>
     </div>
