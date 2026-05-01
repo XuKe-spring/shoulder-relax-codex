@@ -43,7 +43,7 @@ export const courses: Course[] = [
       { name: '颈部旋转拉伸', durationSeconds: 40, ttsText: '小范围颈部旋转，不要压迫颈椎。', svgAnimation: 'neckCircle' },
       { name: '肩胛骨挤压', durationSeconds: 30, ttsText: '肩胛骨向中间靠近，再慢慢放松。', svgAnimation: 'scapulaSqueeze' },
       { name: '胸椎旋转', durationSeconds: 40, ttsText: '胸口左右旋转，骨盆保持稳定。', svgAnimation: 'thoracicRotate' },
-      { name: '全身舒展收尾', durationSeconds: 40, ttsText: '双臂向上舒展，深呼吸，准备结束。', svgAnimation: 'fullBodyReach' },
+      { name: '全身舒展收尾', durationSeconds: 40, ttsText: '双手到头顶后向上推，肩膀下沉远离耳朵，深吸气让身体拉长，呼气慢慢放松。', svgAnimation: 'fullBodyReach' },
     ],
   }),
 ]

@@ -299,6 +299,63 @@ const ThoracicRotateViews = () => (
   </div>
 )
 
+const FullBodyReachViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="全身舒展收尾正视图">
+        <motion.g animate={{ y: [10, -18, 10] }} transition={transition}>
+          <line x1="126" y1="150" x2="104" y2="62" stroke="url(#frontBodyLine)" strokeWidth="10" strokeLinecap="round" />
+          <line x1="234" y1="150" x2="256" y2="62" stroke="url(#frontBodyLine)" strokeWidth="10" strokeLinecap="round" />
+          <line x1="104" y1="62" x2="256" y2="62" stroke="#facc15" strokeWidth="9" strokeLinecap="round" />
+          <circle cx="104" cy="62" r="8" fill="#facc15" />
+          <circle cx="256" cy="62" r="8" fill="#facc15" />
+        </motion.g>
+        <motion.g animate={{ y: [14, -18, 14] }} transition={transition}>
+          <line x1="180" y1="76" x2="180" y2="24" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+          <path d="M166 40 L180 22 L194 40" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+          <line x1="128" y1="96" x2="128" y2="54" stroke="#facc15" strokeWidth="6" strokeLinecap="round" opacity="0.78" />
+          <line x1="232" y1="96" x2="232" y2="54" stroke="#facc15" strokeWidth="6" strokeLinecap="round" opacity="0.78" />
+        </motion.g>
+        <motion.ellipse
+          cx="180"
+          cy="174"
+          rx="58"
+          ry="34"
+          fill="none"
+          stroke="#6aa7ff"
+          strokeWidth="5"
+          animate={{ rx: [48, 66, 48], opacity: [0.45, 0.9, 0.45] }}
+          transition={transition}
+        />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">双手在头顶向上推，身体拉长</text>
+      </FrontBody>
+    </div>
+    <div className="side-view side-view-large">
+      <span className="view-label">侧视图</span>
+      <SideHead label="全身舒展收尾侧视图">
+        <motion.g animate={{ y: [10, -16, 10] }} transition={transition}>
+          <line x1="96" y1="102" x2="96" y2="28" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
+          <circle cx="96" cy="28" r="8" fill="#facc15" />
+        </motion.g>
+        <line x1="134" y1="92" x2="134" y2="42" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <path d="M122 56 L134 40 L146 56" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        <motion.path
+          d="M54 132 C86 104 128 104 160 132"
+          fill="none"
+          stroke="#6aa7ff"
+          strokeWidth="5"
+          strokeLinecap="round"
+          animate={{ opacity: [0.35, 0.9, 0.35] }}
+          transition={transition}
+        />
+        <text x="106" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">向上延展，不耸肩夹耳</text>
+      </SideHead>
+    </div>
+    <ActionPoints points={['双手到头顶后向上推，不是快速甩手', '肩膀下沉，远离耳朵', '吸气向上延展，呼气慢慢放松收尾']} />
+  </div>
+)
+
 export const ExerciseAnimation = ({ type, title }: ExerciseAnimationProps) => {
   const movement = motionFor(type)
   const guidedViews: Partial<Record<AnimationKey, ReactNode>> = {
@@ -310,6 +367,7 @@ export const ExerciseAnimation = ({ type, title }: ExerciseAnimationProps) => {
     neckCircle: <NeckCircleViews />,
     scapulaSqueeze: <ScapulaSqueezeViews />,
     thoracicRotate: <ThoracicRotateViews />,
+    fullBodyReach: <FullBodyReachViews />,
   }
 
   if (guidedViews[type]) {
