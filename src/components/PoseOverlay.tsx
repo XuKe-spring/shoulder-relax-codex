@@ -1,7 +1,7 @@
 ﻿import type { NormalizedLandmarkList, Results } from '@mediapipe/pose'
 import { useEffect, useRef, useState } from 'react'
 import type { PoseFeedback } from '../types'
-import { analyzePose, createBaseline, type PoseBaseline } from '../utils/pose-analysis'
+import { analyzePose, createBaseline, SmoothingBuffer, type PoseBaseline } from '../utils/pose-analysis'
 
 declare global {
   interface Window {
@@ -60,6 +60,7 @@ export const PoseOverlay = ({ paused, calibrationActive, onFeedback, onBaselineR
   const streamRef = useRef<MediaStream | null>(null)
   const requestRef = useRef<number | null>(null)
   const baselineRef = useRef<PoseBaseline | null>(null)
+  const smoothingRef = useRef(new SmoothingBuffer(5))
   const calibrationFramesRef = useRef<NormalizedLandmarkList[]>([])
   const latestLandmarksRef = useRef<NormalizedLandmarkList | null>(null)
   const latestFeedbackRef = useRef<PoseFeedback | null>(null)
@@ -89,14 +90,15 @@ export const PoseOverlay = ({ paused, calibrationActive, onFeedback, onBaselineR
     let mounted = true
 
     const handlePoseResults = (results: Results) => {
-      const landmarks = results.poseLandmarks
-      if (!landmarks?.length) return
+      const rawLandmarks = results.poseLandmarks
+      if (!rawLandmarks?.length) return
+      const landmarks = smoothingRef.current.push(rawLandmarks) ?? rawLandmarks
       latestLandmarksRef.current = landmarks
 
       if (calibrationActiveRef.current && !baselineRef.current) {
         calibrationFramesRef.current.push(landmarks)
         const baseline = createBaseline(calibrationFramesRef.current)
-        if (baseline && calibrationFramesRef.current.length >= 12) {
+        if (baseline && calibrationFramesRef.current.length >= 18) {
           baselineRef.current = baseline
           onBaselineReadyRef.current()
         }
@@ -178,7 +180,7 @@ export const PoseOverlay = ({ paused, calibrationActive, onFeedback, onBaselineR
 
         const pose = new window.Pose({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}` })
         pose.setOptions({
-          modelComplexity: 0,
+          modelComplexity: 1,
           smoothLandmarks: true,
           enableSegmentation: false,
           minDetectionConfidence: 0.5,

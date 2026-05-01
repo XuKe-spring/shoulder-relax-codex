@@ -31,7 +31,8 @@ const playTone = (frequency: number, startOffset: number, duration: number, volu
 
 export const playCountdownBeep = (remainingSeconds: number) => {
   const isFinalSecond = remainingSeconds <= 1
-  playTone(isFinalSecond ? 1046 : 784, 0, isFinalSecond ? 0.18 : 0.1, isFinalSecond ? 0.14 : 0.09)
+  const frequency = isFinalSecond ? 1180 : 620 + (5 - remainingSeconds) * 140
+  playTone(frequency, 0, isFinalSecond ? 0.18 : 0.11, isFinalSecond ? 0.15 : 0.1)
 }
 
 export const playCompletionChime = () => {
