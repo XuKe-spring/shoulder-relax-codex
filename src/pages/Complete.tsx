@@ -1,7 +1,10 @@
+import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import type { PoseDeviationCounts, WorkoutRecord } from '../types'
+import { playCompletionChime } from '../utils/audio-cues'
 import { streakDays } from '../utils/history'
-import { readWorkoutRecords } from '../utils/storage'
+import { readSettings, readWorkoutRecords } from '../utils/storage'
+import { speak } from '../utils/tts'
 
 const formatDuration = (seconds: number) => `${Math.floor(seconds / 60)} 分 ${seconds % 60} 秒`
 
@@ -20,6 +23,15 @@ export const Complete = () => {
   const location = useLocation()
   const record = (location.state as { record?: WorkoutRecord } | null)?.record
   const streak = streakDays(readWorkoutRecords())
+
+  useEffect(() => {
+    if (!record) return
+    playCompletionChime()
+    if (readSettings().voiceEnabled) {
+      speak(`训练完成，做得不错。本次姿态评分 ${record.poseScore} 分。`)
+    }
+  }, [record])
+
   if (!record) {
     return (
       <main className="complete-shell">

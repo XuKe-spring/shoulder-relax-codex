@@ -8,8 +8,8 @@ const withTotal = (course: Omit<Course, 'totalSeconds'>): Course => ({
 const standardSteps = [
   { name: '颈部左右侧屈', durationSeconds: 40, ttsText: '站直身体，头部向左右两侧交替拉伸。', svgAnimation: 'neckSideStretch' as const },
   { name: '头部左右转动', durationSeconds: 30, ttsText: '下巴保持水平，头部慢慢左右转动。', svgAnimation: 'neckTurn' as const },
-  { name: '耸肩放松', durationSeconds: 30, ttsText: '肩膀向耳朵方向提起，再自然落下。', svgAnimation: 'shoulderShrug' as const },
-  { name: '肩部环绕', durationSeconds: 30, ttsText: '双肩向后画圆，注意不要憋气。', svgAnimation: 'shoulderRoll' as const },
+  { name: '耸肩放松', durationSeconds: 30, ttsText: '吸气时双肩向耳朵方向提起，呼气时自然落下，手臂保持放松。', svgAnimation: 'shoulderShrug' as const },
+  { name: '肩部环绕', durationSeconds: 30, ttsText: '双肩先向上，再向后、向下画圆，手臂自然垂放，注意不要憋气。', svgAnimation: 'shoulderRoll' as const },
   { name: '扩胸后拉', durationSeconds: 30, ttsText: '手臂向后打开，肩胛骨轻轻靠近。', svgAnimation: 'chestOpen' as const },
   { name: '收下巴', durationSeconds: 20, ttsText: '轻轻收下巴，让后颈变长。', svgAnimation: 'chinTuck' as const },
   { name: '手臂上举拉伸', durationSeconds: 30, ttsText: '双手向上延伸，肋骨保持稳定。', svgAnimation: 'armRaise' as const },
@@ -23,8 +23,8 @@ export const courses: Course[] = [
     description: '工作间隙快速放松，适合两分钟站起活动。',
     steps: [
       { name: '颈部左右侧屈', durationSeconds: 30, ttsText: '保持肩膀放松，头部缓慢向左右两侧拉伸。', svgAnimation: 'neckSideStretch' },
-      { name: '耸肩放松', durationSeconds: 30, ttsText: '吸气耸肩，呼气放松，感受肩颈松开。', svgAnimation: 'shoulderShrug' },
-      { name: '肩部环绕', durationSeconds: 30, ttsText: '双肩向后环绕，动作慢一点，保持呼吸。', svgAnimation: 'shoulderRoll' },
+      { name: '耸肩放松', durationSeconds: 30, ttsText: '吸气耸肩，呼气放松，手臂自然垂放，感受肩颈松开。', svgAnimation: 'shoulderShrug' },
+      { name: '肩部环绕', durationSeconds: 30, ttsText: '双肩向上、向后、向下慢慢画圆，保持呼吸。', svgAnimation: 'shoulderRoll' },
       { name: '开胸扩胸', durationSeconds: 30, ttsText: '双臂向后打开，胸口展开，不要塌腰。', svgAnimation: 'chestOpen' },
     ],
   }),

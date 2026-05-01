@@ -6,6 +6,7 @@ import { TimerBar } from '../components/TimerBar'
 import { getCourseById } from '../data/courses'
 import { useTimer } from '../hooks/useTimer'
 import type { PoseDeviationCounts, PoseFeedback, WorkoutRecord } from '../types'
+import { playCountdownBeep } from '../utils/audio-cues'
 import { readSettings, saveWorkoutRecord } from '../utils/storage'
 import { speak, stopSpeaking } from '../utils/tts'
 
@@ -37,6 +38,7 @@ export const Train = () => {
   const [voiceEnabled] = useState(() => readSettings().voiceEnabled)
   const [startedAt] = useState(() => Date.now())
   const lastAccumulatedAtRef = useRef(0)
+  const lastBeepSecondRef = useRef<number | null>(null)
   const currentStep = course?.steps[stepIndex]
   const isTraining = calibrationSeconds === 0
 
@@ -84,9 +86,22 @@ export const Train = () => {
   }, [calibrationSeconds, paused])
 
   useEffect(() => {
-    if (currentStep && isTraining && voiceEnabled) speak(currentStep.ttsText)
-  }, [currentStep, isTraining, voiceEnabled])
+    if (currentStep && isTraining && voiceEnabled) {
+      speak(`第 ${stepIndex + 1} 个动作，${currentStep.name}。${currentStep.ttsText}`)
+    }
+  }, [currentStep, isTraining, stepIndex, voiceEnabled])
   useEffect(() => () => stopSpeaking(), [])
+
+  useEffect(() => {
+    lastBeepSecondRef.current = null
+  }, [stepIndex])
+
+  useEffect(() => {
+    if (!isTraining || paused || remainingSeconds < 1 || remainingSeconds > 5) return
+    if (lastBeepSecondRef.current === remainingSeconds) return
+    lastBeepSecondRef.current = remainingSeconds
+    playCountdownBeep(remainingSeconds)
+  }, [isTraining, paused, remainingSeconds])
 
   const handleFeedback = useCallback((nextFeedback: PoseFeedback) => {
     setFeedback(nextFeedback)
