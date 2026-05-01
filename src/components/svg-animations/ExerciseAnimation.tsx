@@ -8,27 +8,17 @@ interface ExerciseAnimationProps {
 }
 
 const transition = { duration: 3, repeat: Infinity, ease: 'easeInOut' as const }
-const shoulderTransition = { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
+const quickTransition = { duration: 2.4, repeat: Infinity, ease: 'easeInOut' as const }
 
 const motionFor = (type: AnimationKey) => {
   switch (type) {
     case 'neckSideStretch':
       return { headX: [-6, 10, -6], headRotate: [-10, 12, -10], armY: [0, 0, 0] }
-    case 'neckTurn':
-      return { headX: [-8, 8, -8], headRotate: [-4, 4, -4], armY: [0, 0, 0] }
-    case 'scapulaSqueeze':
-      return { headX: [0, 0, 0], headRotate: [0, 0, 0], armY: [16, -6, 16] }
-    case 'chinTuck':
-      return { headX: [10, -8, 10], headRotate: [0, 0, 0], armY: [0, 0, 0] }
     case 'armRaise':
     case 'fullBodyReach':
       return { headX: [0, 0, 0], headRotate: [0, 0, 0], armY: [18, -28, 18] }
     case 'sideStretch':
       return { headX: [-10, 12, -10], headRotate: [-6, 8, -6], armY: [4, -20, 4] }
-    case 'neckCircle':
-      return { headX: [-8, 8, 8, -8], headRotate: [-8, 8, -8, 8], armY: [0, 0, 0, 0] }
-    case 'thoracicRotate':
-      return { headX: [-10, 10, -10], headRotate: [-8, 8, -8], armY: [0, -6, 0] }
     default:
       return { headX: [0, 0, 0], headRotate: [0, 0, 0], armY: [0, 0, 0] }
   }
@@ -59,19 +49,28 @@ const FrontBody = ({ children, ariaLabel }: { children?: ReactNode; ariaLabel: s
   </svg>
 )
 
+const SideHead = ({ children, label }: { children?: ReactNode; label: string }) => (
+  <svg viewBox="0 0 210 250" role="img" aria-label={label}>
+    <circle cx="92" cy="54" r="25" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
+    <line x1="92" y1="80" x2="92" y2="168" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
+    <circle cx="96" cy="102" r="12" fill="#4dd4ac" />
+    {children}
+  </svg>
+)
+
 const ShoulderShrugViews = () => (
   <div className="dual-action-view">
     <div className="front-view">
       <span className="view-label">正视图</span>
       <FrontBody ariaLabel="耸肩放松正视图">
-        <motion.g animate={{ y: [16, -22, 16] }} transition={shoulderTransition}>
+        <motion.g animate={{ y: [16, -22, 16] }} transition={quickTransition}>
           <line x1="122" y1="158" x2="238" y2="158" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
           <line x1="122" y1="158" x2="104" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
           <line x1="238" y1="158" x2="256" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
           <circle cx="122" cy="158" r="12" fill="#4dd4ac" />
           <circle cx="238" cy="158" r="12" fill="#4dd4ac" />
         </motion.g>
-        <motion.g animate={{ y: [12, -18, 12] }} transition={shoulderTransition}>
+        <motion.g animate={{ y: [12, -18, 12] }} transition={quickTransition}>
           <line x1="98" y1="174" x2="98" y2="126" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
           <path d="M84 140 L98 124 L112 140" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
           <line x1="262" y1="174" x2="262" y2="126" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
@@ -81,18 +80,15 @@ const ShoulderShrugViews = () => (
     </div>
     <div className="side-view">
       <span className="view-label">侧视图</span>
-      <svg viewBox="0 0 190 230" role="img" aria-label="耸肩放松侧视图">
-        <circle cx="82" cy="42" r="24" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
-        <line x1="82" y1="68" x2="82" y2="155" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
-        <motion.g animate={{ y: [12, -20, 12] }} transition={shoulderTransition}>
-          <circle cx="88" cy="88" r="13" fill="#facc15" />
-          <line x1="88" y1="88" x2="106" y2="165" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
-          <circle cx="106" cy="165" r="8" fill="#dffcf2" />
+      <SideHead label="耸肩放松侧视图">
+        <motion.g animate={{ y: [12, -20, 12] }} transition={quickTransition}>
+          <circle cx="96" cy="102" r="13" fill="#facc15" />
+          <line x1="96" y1="102" x2="116" y2="184" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
         </motion.g>
-        <line x1="132" y1="124" x2="132" y2="72" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
-        <path d="M120 84 L132 70 L144 84" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-        <text x="95" y="212" textAnchor="middle" fill="#fef3c7" fontSize="14" fontWeight="800">肩头向上，不抬手</text>
-      </svg>
+        <line x1="150" y1="138" x2="150" y2="82" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <path d="M138 94 L150 80 L162 94" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="105" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">肩头向上，不抬手</text>
+      </SideHead>
     </div>
     <ActionPoints points={['吸气时肩膀向耳朵方向提起', '呼气时肩膀自然落下', '手臂放松垂下，不主动抬手']} />
   </div>
@@ -103,10 +99,7 @@ const ShoulderRollViews = () => (
     <div className="front-view">
       <span className="view-label">正视图</span>
       <FrontBody ariaLabel="肩部环绕正视图">
-        <motion.g
-          animate={{ y: [0, -18, 0, 16, 0], x: [0, 8, 0, -8, 0] }}
-          transition={transition}
-        >
+        <motion.g animate={{ y: [0, -18, 0, 16, 0], x: [0, 8, 0, -8, 0] }} transition={transition}>
           <line x1="122" y1="158" x2="238" y2="158" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
           <line x1="122" y1="158" x2="104" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
           <line x1="238" y1="158" x2="256" y2="238" stroke="url(#frontBodyLine)" strokeWidth="9" strokeLinecap="round" />
@@ -124,19 +117,16 @@ const ShoulderRollViews = () => (
     </div>
     <div className="side-view side-view-large">
       <span className="view-label">侧视图</span>
-      <svg viewBox="0 0 210 250" role="img" aria-label="肩部环绕侧视图">
-        <circle cx="78" cy="42" r="24" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
-        <line x1="78" y1="68" x2="78" y2="165" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
-        <ellipse cx="92" cy="104" rx="30" ry="42" fill="none" stroke="#facc15" strokeDasharray="6 6" strokeWidth="6" />
+      <SideHead label="肩部环绕侧视图">
+        <ellipse cx="96" cy="112" rx="30" ry="42" fill="none" stroke="#facc15" strokeDasharray="6 6" strokeWidth="6" />
         <motion.g animate={{ x: [0, 24, 0, -20, 0], y: [-28, 0, 30, 0, -28] }} transition={transition}>
-          <circle cx="92" cy="104" r="14" fill="#facc15" />
-          <line x1="92" y1="104" x2="114" y2="184" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
-          <circle cx="114" cy="184" r="8" fill="#dffcf2" />
+          <circle cx="96" cy="112" r="14" fill="#facc15" />
+          <line x1="96" y1="112" x2="118" y2="192" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
         </motion.g>
-        <path d="M132 70 C170 86 170 124 132 148" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-        <path d="M132 148 L134 127 L152 138" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-        <text x="116" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">肩头向上、向后、向下滚动</text>
-      </svg>
+        <path d="M136 78 C174 94 174 132 136 156" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        <path d="M136 156 L138 135 L156 146" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="108" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">向上、向后、向下</text>
+      </SideHead>
     </div>
     <ActionPoints points={['肩膀先向上提，不要耸住', '再向后绕，像把肩胛骨带到身后', '最后向下沉肩，手臂始终放松']} />
   </div>
@@ -146,50 +136,187 @@ const ChestOpenViews = () => (
   <div className="dual-action-view">
     <div className="front-view">
       <span className="view-label">正视图</span>
-      <FrontBody ariaLabel="开胸扩胸正视图">
+      <FrontBody ariaLabel="扩胸后拉正视图">
         <line x1="122" y1="158" x2="238" y2="158" stroke="url(#frontBodyLine)" strokeWidth="12" strokeLinecap="round" />
         <circle cx="122" cy="158" r="11" fill="#4dd4ac" />
         <circle cx="238" cy="158" r="11" fill="#4dd4ac" />
-        <motion.g transition={transition} animate={{ opacity: [0.55, 1, 0.55] }}>
+        <motion.g animate={{ opacity: [0.55, 1, 0.55] }} transition={transition}>
           <motion.line x1="122" y1="158" stroke="#6aa7ff" strokeWidth="9" strokeLinecap="round" animate={{ x2: [98, 72, 98], y2: [224, 188, 224] }} transition={transition} />
           <motion.line x1="238" y1="158" stroke="#6aa7ff" strokeWidth="9" strokeLinecap="round" animate={{ x2: [262, 288, 262], y2: [224, 188, 224] }} transition={transition} />
           <motion.circle r="8" fill="#dffcf2" animate={{ cx: [98, 72, 98], cy: [224, 188, 224] }} transition={transition} />
           <motion.circle r="8" fill="#dffcf2" animate={{ cx: [262, 288, 262], cy: [224, 188, 224] }} transition={transition} />
         </motion.g>
-        <path d="M145 160 C130 176 110 184 82 184" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
-        <path d="M215 160 C230 176 250 184 278 184" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
         <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">手臂向后打开，胸口展开</text>
       </FrontBody>
     </div>
     <div className="side-view side-view-large">
       <span className="view-label">侧视图</span>
-      <svg viewBox="0 0 210 250" role="img" aria-label="开胸扩胸侧视图">
-        <circle cx="88" cy="42" r="24" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="4" />
-        <line x1="88" y1="68" x2="88" y2="168" stroke="#4dd4ac" strokeWidth="9" strokeLinecap="round" />
-        <circle cx="92" cy="96" r="12" fill="#4dd4ac" />
+      <SideHead label="扩胸后拉侧视图">
         <motion.g animate={{ x: [24, -34, 24], y: [16, -8, 16] }} transition={transition}>
-          <line x1="92" y1="96" x2="112" y2="176" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
-          <circle cx="112" cy="176" r="8" fill="#dffcf2" />
+          <line x1="96" y1="102" x2="118" y2="186" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
+          <circle cx="118" cy="186" r="8" fill="#dffcf2" />
         </motion.g>
-        <path d="M142 114 C104 96 72 92 40 106" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
-        <path d="M44 106 L62 94 L60 114" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-        <text x="104" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">手臂往身体后方打开</text>
-      </svg>
+        <path d="M146 122 C108 104 76 100 44 114" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        <path d="M48 114 L66 102 L64 122" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="108" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">手臂往身体后方打开</text>
+      </SideHead>
     </div>
     <ActionPoints points={['手臂从身体两侧向后打开', '胸口向前展开，肩胛骨轻轻靠近', '不要塌腰，肋骨保持稳定']} />
   </div>
 )
 
+const NeckTurnViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="头部左右转动正视图">
+        <motion.g animate={{ x: [-12, 12, -12] }} transition={transition}>
+          <ellipse cx="180" cy="78" rx="20" ry="31" fill="#facc15" opacity="0.5" />
+          <line x1="180" y1="78" x2="205" y2="78" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        </motion.g>
+        <path d="M132 94 C160 122 200 122 228 94" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">下巴水平，头向左右看</text>
+      </FrontBody>
+    </div>
+    <div className="side-view">
+      <span className="view-label">俯视辅助图</span>
+      <svg viewBox="0 0 210 250" role="img" aria-label="头部转动俯视辅助图">
+        <ellipse cx="105" cy="100" rx="42" ry="54" fill="#eef8ff" stroke="#6aa7ff" strokeWidth="5" />
+        <motion.line x1="105" y1="100" x2="150" y2="100" stroke="#facc15" strokeWidth="8" strokeLinecap="round" animate={{ rotate: [-45, 45, -45] }} transition={transition} style={{ transformOrigin: '105px 100px' }} />
+        <path d="M58 100 C74 52 136 52 152 100" fill="none" stroke="#facc15" strokeDasharray="7 7" strokeWidth="6" />
+        <text x="105" y="214" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">只转头，不扭肩</text>
+      </svg>
+    </div>
+    <ActionPoints points={['下巴保持水平，不仰头不低头', '眼睛看向左右两侧', '肩膀和胸口保持正对前方']} />
+  </div>
+)
+
+const ChinTuckViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="收下巴正视图">
+        <motion.g animate={{ y: [0, 4, 0] }} transition={quickTransition}>
+          <line x1="150" y1="104" x2="210" y2="104" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+          <path d="M168 92 L148 104 L168 116" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        </motion.g>
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">像做“双下巴”，后颈变长</text>
+      </FrontBody>
+    </div>
+    <div className="side-view side-view-large">
+      <span className="view-label">侧视图</span>
+      <SideHead label="收下巴侧视图">
+        <motion.g animate={{ x: [24, -18, 24] }} transition={quickTransition}>
+          <circle cx="118" cy="58" r="6" fill="#facc15" />
+          <line x1="118" y1="58" x2="92" y2="58" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        </motion.g>
+        <path d="M158 62 L112 62" stroke="#facc15" strokeWidth="6" strokeLinecap="round" />
+        <path d="M124 50 L108 62 L124 74" fill="none" stroke="#facc15" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="106" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">头整体向后平移</text>
+      </SideHead>
+    </div>
+    <ActionPoints points={['不是低头，是头向后平移', '下巴轻轻往里收', '后颈拉长，肩膀放松']} />
+  </div>
+)
+
+const NeckCircleViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="颈部旋转拉伸正视图">
+        <ellipse cx="180" cy="78" rx="48" ry="42" fill="none" stroke="#facc15" strokeDasharray="7 7" strokeWidth="5" />
+        <motion.circle cx="180" cy="36" r="8" fill="#facc15" animate={{ cx: [180, 228, 180, 132, 180], cy: [36, 78, 120, 78, 36] }} transition={transition} />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">小范围画圈，不压颈椎</text>
+      </FrontBody>
+    </div>
+    <div className="side-view">
+      <span className="view-label">侧视图</span>
+      <SideHead label="颈部旋转拉伸侧视图">
+        <ellipse cx="92" cy="54" rx="36" ry="30" fill="none" stroke="#facc15" strokeDasharray="6 6" strokeWidth="5" />
+        <motion.circle cx="92" cy="24" r="8" fill="#facc15" animate={{ cx: [92, 128, 92, 56, 92], cy: [24, 54, 84, 54, 24] }} transition={transition} />
+        <text x="106" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">轻柔小圈</text>
+      </SideHead>
+    </div>
+    <ActionPoints points={['动作范围小一点，避免压迫颈椎', '速度放慢，感觉颈侧被轻轻拉开', '如果头晕，立刻停止']} />
+  </div>
+)
+
+const ScapulaSqueezeViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="肩胛骨挤压正视图">
+        <motion.g animate={{ x: [0, -18, 0] }} transition={transition}>
+          <path d="M124 146 L148 214 L108 214 Z" fill="rgba(250, 204, 21, 0.5)" stroke="#facc15" strokeWidth="4" />
+        </motion.g>
+        <motion.g animate={{ x: [0, 18, 0] }} transition={transition}>
+          <path d="M236 146 L252 214 L212 214 Z" fill="rgba(250, 204, 21, 0.5)" stroke="#facc15" strokeWidth="4" />
+        </motion.g>
+        <path d="M136 178 L170 178" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        <path d="M224 178 L190 178" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">肩胛骨向中间靠近</text>
+      </FrontBody>
+    </div>
+    <div className="side-view side-view-large">
+      <span className="view-label">侧视图</span>
+      <SideHead label="肩胛骨挤压侧视图">
+        <motion.g animate={{ x: [20, -18, 20] }} transition={transition}>
+          <circle cx="96" cy="102" r="12" fill="#facc15" />
+          <line x1="96" y1="102" x2="118" y2="184" stroke="#6aa7ff" strokeWidth="8" strokeLinecap="round" />
+        </motion.g>
+        <path d="M150 112 L98 112" stroke="#facc15" strokeWidth="7" strokeLinecap="round" />
+        <path d="M112 100 L96 112 L112 124" fill="none" stroke="#facc15" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="106" y="226" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">肩膀轻轻向后收</text>
+      </SideHead>
+    </div>
+    <ActionPoints points={['想象肩胛骨向脊柱靠近', '胸口自然打开，不要耸肩', '夹住 1 秒，再慢慢放松']} />
+  </div>
+)
+
+const ThoracicRotateViews = () => (
+  <div className="dual-action-view">
+    <div className="front-view">
+      <span className="view-label">正视图</span>
+      <FrontBody ariaLabel="胸椎旋转正视图">
+        <motion.g animate={{ rotate: [-18, 18, -18] }} transition={transition} style={{ transformOrigin: '180px 172px' }}>
+          <line x1="118" y1="158" x2="242" y2="158" stroke="#facc15" strokeWidth="12" strokeLinecap="round" />
+          <line x1="180" y1="122" x2="180" y2="222" stroke="#facc15" strokeWidth="10" strokeLinecap="round" opacity="0.55" />
+        </motion.g>
+        <line x1="132" y1="238" x2="226" y2="238" stroke="#6aa7ff" strokeWidth="10" strokeLinecap="round" />
+        <text x="180" y="334" textAnchor="middle" fill="#fef3c7" fontSize="18" fontWeight="900">胸口左右转，骨盆稳定</text>
+      </FrontBody>
+    </div>
+    <div className="side-view">
+      <span className="view-label">俯视辅助图</span>
+      <svg viewBox="0 0 210 250" role="img" aria-label="胸椎旋转俯视辅助图">
+        <ellipse cx="105" cy="122" rx="54" ry="36" fill="rgba(77, 212, 172, 0.22)" stroke="#4dd4ac" strokeWidth="5" />
+        <motion.line x1="105" y1="122" x2="162" y2="122" stroke="#facc15" strokeWidth="10" strokeLinecap="round" animate={{ rotate: [-36, 36, -36] }} transition={transition} style={{ transformOrigin: '105px 122px' }} />
+        <line x1="74" y1="174" x2="136" y2="174" stroke="#6aa7ff" strokeWidth="9" strokeLinecap="round" />
+        <text x="105" y="218" textAnchor="middle" fill="#fef3c7" fontSize="15" fontWeight="900">上半身转，骨盆不跟着转</text>
+      </svg>
+    </div>
+    <ActionPoints points={['胸口带动上半身左右旋转', '骨盆和双脚保持朝前', '动作慢一点，不甩腰']} />
+  </div>
+)
+
 export const ExerciseAnimation = ({ type, title }: ExerciseAnimationProps) => {
   const movement = motionFor(type)
+  const guidedViews: Partial<Record<AnimationKey, ReactNode>> = {
+    neckTurn: <NeckTurnViews />,
+    shoulderShrug: <ShoulderShrugViews />,
+    shoulderRoll: <ShoulderRollViews />,
+    chestOpen: <ChestOpenViews />,
+    chinTuck: <ChinTuckViews />,
+    neckCircle: <NeckCircleViews />,
+    scapulaSqueeze: <ScapulaSqueezeViews />,
+    thoracicRotate: <ThoracicRotateViews />,
+  }
 
-  if (type === 'shoulderShrug' || type === 'shoulderRoll' || type === 'chestOpen') {
+  if (guidedViews[type]) {
     return (
       <div className="animation-stage">
         <div className="panel-label">标准动作演示</div>
-        {type === 'shoulderShrug' && <ShoulderShrugViews />}
-        {type === 'shoulderRoll' && <ShoulderRollViews />}
-        {type === 'chestOpen' && <ChestOpenViews />}
+        {guidedViews[type]}
         <div className="animation-caption">{title}</div>
       </div>
     )
