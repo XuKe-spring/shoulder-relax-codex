@@ -148,7 +148,8 @@
 .subpage-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; max-width: 1180px; margin: 0 auto 28px; padding: 48px 0 26px; border-bottom: 1px solid rgba(148, 163, 184, 0.22); }
 .subpage-header h1 { margin: 0; color: #f8fafc; font-size: 42px; line-height: 1.08; }
 .header-actions { display: flex; gap: 10px; }
-.analytics-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr); gap: 16px; max-width: 1180px; margin: 0 auto; }
+.analytics-grid, .insight-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr); gap: 16px; max-width: 1180px; margin: 0 auto; }
+.insight-grid { margin-top: 16px; }
 .analytics-panel, .settings-panel { border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 8px; background: rgba(15, 23, 42, 0.72); padding: 20px; }
 .heatmap-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
 .heatmap-cell { aspect-ratio: 1; border-radius: 5px; background: rgba(148, 163, 184, 0.16); }
@@ -160,6 +161,23 @@
 .bar-track { display: flex; align-items: end; width: 100%; height: 150px; border-radius: 8px; background: rgba(2, 6, 23, 0.48); overflow: hidden; }
 .bar-track span { display: block; width: 100%; min-height: 4px; background: linear-gradient(180deg, #6aa7ff, #4dd4ac); }
 .bar-item strong { color: #f8fafc; }
+.score-trend { display: grid; grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: 12px; align-items: end; min-height: 220px; }
+.score-point { display: grid; grid-template-rows: 150px auto auto; gap: 8px; justify-items: center; color: #94a3b8; font-size: 13px; }
+.score-point span { align-self: end; display: block; width: 100%; min-height: 8px; border-radius: 8px 8px 3px 3px; background: linear-gradient(180deg, #4dd4ac, #6aa7ff); }
+.score-point strong { color: #f8fafc; }
+.score-point em { max-width: 100%; overflow-wrap: anywhere; color: #94a3b8; font-style: normal; text-align: center; }
+.deviation-breakdown { display: grid; gap: 16px; }
+.deviation-breakdown div { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding-bottom: 16px; color: #c8d3df; }
+.deviation-breakdown span { color: #dbeafe; font-weight: 800; }
+.deviation-breakdown strong { color: #f8fafc; }
+.deviation-breakdown i { position: absolute; left: 0; bottom: 0; z-index: 1; display: block; height: 8px; min-width: 8px; border-radius: 999px; background: linear-gradient(90deg, #facc15, #4dd4ac); }
+.deviation-breakdown div::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; border-radius: 999px; background: rgba(148, 163, 184, 0.16); }
+.course-summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.course-summary-card { display: grid; gap: 16px; padding: 18px; border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 8px; background: rgba(15, 23, 42, 0.72); }
+.course-summary-card strong { display: block; color: #f8fafc; font-size: 18px; }
+.course-summary-card span { color: #94a3b8; font-size: 14px; }
+.summary-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.summary-metrics span { padding: 8px; border-radius: 8px; background: rgba(2, 6, 23, 0.44); color: #dbeafe; text-align: center; font-weight: 800; }
 .settings-panel { display: grid; gap: 16px; max-width: 900px; margin: 0 auto; }
 .setting-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px; border-radius: 8px; background: rgba(2, 6, 23, 0.36); }
 .setting-row strong { color: #f8fafc; font-size: 20px; }
@@ -181,7 +199,7 @@
 .onboarding-actions > button { min-height: 44px; padding: 10px 16px; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.28); background: rgba(15, 23, 42, 0.9); color: #f8fafc; }
 @media (max-width: 920px) {
   .home-shell, .complete-shell { padding: 24px; }
-  .home-hero, .subpage-header, .dashboard-band, .course-grid, .train-grid, .training-console, .analytics-grid, .setting-row { grid-template-columns: 1fr; }
+  .home-hero, .subpage-header, .dashboard-band, .course-grid, .train-grid, .training-console, .analytics-grid, .insight-grid, .setting-row, .course-summary-grid { grid-template-columns: 1fr; }
   .home-hero h1, .complete-card h1, .subpage-header h1 { font-size: 34px; }
   .hero-actions { align-items: stretch; }
   .header-actions { flex-direction: column; }
@@ -199,4 +217,5 @@
   .train-topbar { grid-template-columns: 1fr; }
   .top-timer { justify-self: start; }
   .control-row, .result-grid { grid-template-columns: 1fr 1fr; }
+  .score-trend { grid-template-columns: repeat(auto-fit, minmax(44px, 1fr)); }
 }
